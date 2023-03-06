@@ -1,45 +1,43 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-typedef struct Node
+typedef struct Node                 // инициализация узла списка. typedef использован для удобства, не нужно каждый раз писать struct
 {
     int data;
     struct Node *next;
 }Node;
 
-typedef struct Queue
+typedef struct Queue                // инициализация очереди. typedef использован для удобства, не нужно каждый раз писать struct
 {
-    struct Node *head;
-    struct Node *tail;
+    struct Node *head;              // указатель на начало очереди
+    struct Node *tail;              // указатель на конец очереди
 }Queue;
 
-void print_queue(Queue *q);
-void enqueue(Queue *q, int data);
-int dequeue(Queue *q);
+void print_queue(Queue *q);         // печать очереди, начиная с головы (head)
+void enqueue(Queue *q, int data);   // добавление в конец очереди нового узла со значением data
+int dequeue(Queue *q);              // извлечение элемента из начала очереди, возвращает значение этого элемента
 
 int main()
 {
     int test[] = {3, 17, 21, 10};
-    Queue queue = {NULL, NULL};
+    Queue queue = {NULL, NULL};     // объявление и инициализания очереди, пока head и tail узазывают на NULL 
     
     for (int i = 0; i < sizeof(test)/sizeof(test[0]); i++)
     {
-        enqueue(&queue, test[i]);    
-
+        enqueue(&queue, test[i]);   // добавление в очередь элементов из тестового списка test
         print_queue(&queue);
-        printf("date from head: %d \n", *queue.head);
-        printf("date from tail: %d \n\n", *queue.tail);
+        printf("date from head: %d \n", *queue.head);           // печать элемента начала очереди
+        printf("date from tail: %d \n\n", *queue.tail);         // печать элемента конца очереди
     }
 
     while (queue.head != NULL)
     {
-        printf("poped element: %d \n", dequeue(&queue));
-
+        printf("poped element: %d \n", dequeue(&queue));        // удаление элемента из начала очереди, вывод его на экран
         print_queue(&queue);
         if (queue.head != NULL)
         {
-            printf("date from head: %d \n", *queue.head);
-            printf("date from tail: %d \n\n", *queue.tail);
+            printf("date from head: %d \n", *queue.head);       // печать элемента начала очереди
+            printf("date from tail: %d \n\n", *queue.tail);     // печать элемента конца очереди
         }
     }
 
@@ -49,10 +47,10 @@ int main()
 
 void print_queue(Queue *q)
 {
-    if (q->head == NULL)
+    if (q->head == NULL)                                        // проверка пуста ли очередь
         printf("No elements in queue");
 
-    for (Node *p = q->head; p != NULL; p = p->next)
+    for (Node *p = q->head; p != NULL; p = p->next)             // печать всех элементов. если очередь пуста, то программа вообще на зайдёт в цикл из-за проверки p != NULL 
     {
         printf("%d ", p->data);
     }
@@ -61,12 +59,12 @@ void print_queue(Queue *q)
 
 void enqueue(Queue *q, int data)
 {
-    Node *p = (Node*)malloc(sizeof(Node));
+    Node *p = (Node*)malloc(sizeof(Node));                      // выделение памяти под новый узел
     p->data = data;
     p->next = NULL;
-    if (q->tail == NULL)
+    if (q->tail == NULL)                                        // проверка пуста ли очередь
     {
-        q->head = p;
+        q->head = p;                                            
         q->tail = p;
     }
     else
@@ -78,7 +76,7 @@ void enqueue(Queue *q, int data)
 
 int dequeue(Queue *q)
 {
-    if (q->head == NULL)
+    if (q->head == NULL)                                        // проверка пуста ли очередь
     {
         printf("No elements in queue");
         return 0;
@@ -86,6 +84,6 @@ int dequeue(Queue *q)
     Node *temp = q->head;
     int res = q->head->data;
     q->head = q->head->next;
-    free(temp);
+    free(temp);                                                 // освобождение памяти из-под удалённого узла
     return res;
 }
