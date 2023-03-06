@@ -28,42 +28,42 @@ int main()
 
     for (int i = 0; i < sizeof(test)/sizeof(test[0]); i++)
     {
-        enqueue(&queue.head, test[i]);
+        enqueue(&queue.tail, test[i]);
         if (i==0)
-            queue.tail = queue.head;
+            queue.head = queue.tail;
         
-        printf("date from first: %d \n", *queue.head);
+        printf("date from head: %d \n", *queue.head);
         printf("date from tail: %d \n", *queue.tail);
         printf("\n");
     }
 
-    print_queue(queue.head);
+    print_queue(queue.tail);
 
-    printf("date from first: %d \n", *queue.head);
+    printf("date from head: %d \n", *queue.head);
     printf("date from tail: %d \n", *queue.tail);
 
     return 0;
 }
 
 
-void print_queue(Node *queue_head)
+void print_queue(Node *queue_tail)
 {
-    if (queue_head == NULL)
+    if (queue_tail == NULL)
         printf("No elements in queue");
 
-    for (Node *p = queue_head; p != NULL; p = p->next)
+    for (Node *p = queue_tail; p != NULL; p = p->next)
     {
         printf("%d ", p->data);
     }
     printf("\n");
 }
 
-void enqueue(Node **queue_head, int data)
+void enqueue(Node **queue_tail, int data)
 {
     Node *p = (Node*)malloc(sizeof(Node));
     p->data = data;
-    p->next = *queue_head;
-    *queue_head = p;
+    p->next = *queue_tail;
+    *queue_tail = p;
 }
 
 int dequeue(Node *queue)
