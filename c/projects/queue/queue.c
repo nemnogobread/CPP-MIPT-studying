@@ -1,13 +1,11 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-
 typedef struct Node
 {
     int data;
     struct Node *next;
 }Node;
-Node *queue = NULL;
 
 typedef struct Queue
 {
@@ -15,58 +13,73 @@ typedef struct Queue
     struct Node *tail;
 }Queue;
 
-
-void print_queue(Node *queue);
-void enqueue(Node **queue, int data);
-int dequeue(Node *queue);
-
+void print_queue(Queue *q);
+void enqueue(Queue *q, int data);
+int dequeue(Queue *q);
 
 int main()
 {
     int test[] = {3, 17, 21, 10};
-    Queue queue = {NULL, NULL}; 
-
+    Queue queue = {NULL, NULL};
+    
     for (int i = 0; i < sizeof(test)/sizeof(test[0]); i++)
     {
-        enqueue(&queue.tail, test[i]);
-        if (i==0)
-            queue.head = queue.tail;
-        
-        printf("date from head: %d \n", *queue.head);
-        printf("date from tail: %d \n", *queue.tail);
-        printf("\n");
+        enqueue(&queue, test[i]);    
     }
 
-    print_queue(queue.tail);
-
+    print_queue(&queue);
     printf("date from head: %d \n", *queue.head);
     printf("date from tail: %d \n", *queue.tail);
 
+    printf("%d \n", dequeue(&queue));
+
+    print_queue(&queue);
+    printf("date from head: %d \n", *queue.head);
+    printf("date from tail: %d \n", *queue.tail);
+
+    printf("\n");
     return 0;
 }
 
-
-void print_queue(Node *queue_tail)
+void print_queue(Queue *q)
 {
-    if (queue_tail == NULL)
+    if (q->head == NULL)
         printf("No elements in queue");
 
-    for (Node *p = queue_tail; p != NULL; p = p->next)
+    for (Node *p = q->head; p != NULL; p = p->next)
     {
         printf("%d ", p->data);
     }
     printf("\n");
 }
 
-void enqueue(Node **queue_tail, int data)
+void enqueue(Queue *q, int data)
 {
     Node *p = (Node*)malloc(sizeof(Node));
     p->data = data;
-    p->next = *queue_tail;
-    *queue_tail = p;
+    p->next = NULL;
+    if (q->tail == NULL)
+    {
+        q->head = p;
+        q->tail = p;
+    }
+    else
+    {
+        q->tail->next = p;
+        q->tail = p;
+    }
 }
 
-int dequeue(Node *queue)
+int dequeue(Queue *q)
 {
-    return 0;
+    if (q->head == NULL)
+    {
+        printf("No elements in queue");
+        return 0;
+    }
+    Node *temp = q->head;
+    int res = q->head->data;
+    q->head = q->head->next;
+    free(temp);
+    return res;
 }
