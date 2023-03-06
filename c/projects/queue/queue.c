@@ -25,17 +25,23 @@ int main()
     for (int i = 0; i < sizeof(test)/sizeof(test[0]); i++)
     {
         enqueue(&queue, test[i]);    
+
+        print_queue(&queue);
+        printf("date from head: %d \n", *queue.head);
+        printf("date from tail: %d \n\n", *queue.tail);
     }
 
-    print_queue(&queue);
-    printf("date from head: %d \n", *queue.head);
-    printf("date from tail: %d \n", *queue.tail);
+    while (queue.head != NULL)
+    {
+        printf("poped element: %d \n", dequeue(&queue));
 
-    printf("%d \n", dequeue(&queue));
-
-    print_queue(&queue);
-    printf("date from head: %d \n", *queue.head);
-    printf("date from tail: %d \n", *queue.tail);
+        print_queue(&queue);
+        if (queue.head != NULL)
+        {
+            printf("date from head: %d \n", *queue.head);
+            printf("date from tail: %d \n\n", *queue.tail);
+        }
+    }
 
     printf("\n");
     return 0;
