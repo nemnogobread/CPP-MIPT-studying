@@ -1,3 +1,6 @@
+// в ходе работы программы предпологается, что работа идёт только с неотрицательными числами
+// в противном случае, нужно подправить main и функцию dequeue 
+
 #include "stdio.h"
 #include "stdlib.h"
 
@@ -32,14 +35,19 @@ int main()
 
     while (queue.head != NULL)
     {
-        printf("poped element: %d \n", dequeue(&queue));        // удаление элемента из начала очереди, вывод его на экран
-        print_queue(&queue);
-        if (queue.head != NULL)
+        int temp = dequeue(&queue);
+        if (temp != -1)
         {
-            printf("date from head: %d \n", *queue.head);       // печать элемента начала очереди
-            printf("date from tail: %d \n\n", *queue.tail);     // печать элемента конца очереди
-        }
+            printf("poped element: %d\n", temp);   // добавление в очередь элементов из тестового списка test
+            print_queue(&queue);
+            if (queue.head != NULL)
+            {
+                printf("date from head: %d \n", *queue.head);           // печать элемента начала очереди
+                printf("date from tail: %d \n\n", *queue.tail);         // печать элемента конца очереди
+            }
+        } 
     }
+    dequeue(&queue);
 
     printf("\n");
     return 0;
@@ -78,8 +86,8 @@ int dequeue(Queue *q)
 {
     if (q->head == NULL)                                        // проверка пуста ли очередь
     {
-        printf("No elements in queue");
-        return 0;
+        printf("Can't remove element, the queue is empty");
+        return -1;
     }
     Node *temp = q->head;
     int res = q->head->data;

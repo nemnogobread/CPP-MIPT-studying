@@ -14,9 +14,9 @@ typedef struct Queue
     int max;    // максимальный размер очереди
 }Queue;
 
-Queue *init(size_t size);
+Queue *init(size_t size);                               // инициализация очереди размера size
 void enqueue(Queue *q, int a);                          // добавление в конец очереди
-int dequeue(Queue *q);                                  // добавление в конец очереди
+int dequeue(Queue *q);                                  // удаление из начала очереди
 void print_queue(Queue *q);                             // печать очереди
 void print_data(Queue *q);                              // вспомогательная функция, печать всего массива data        
 
@@ -33,22 +33,27 @@ int main()
         enqueue(q, test[i%6]);                         
         if (i%2)                                        
             dequeue(q);
-        puts("*data has next structure: ");
-        print_data(q);
-        puts("queue has next structure: ");
+        printf("queue has next structure: ");
         print_queue(q);
-        puts("");
+        printf("data has next structure:  ");
+        print_data(q);
+        printf("\n");
     }
     printf("\n");
 
     int local_size = q->count;
-    for (int i = 0; i < local_size; i++)
+    for (int i = 0; i < local_size + 1; i++)
     {
         int temp = dequeue(q);
         if (temp != -1)
+        {
             printf("poped element: %d\n", temp);
-        print_queue(q);
-        printf("\n");
+            printf("queue has next structure: ");
+            print_queue(q);
+            printf("data has next structure:  ");
+            print_data(q);
+            printf("\n");
+        }
     }
 }
 
@@ -97,7 +102,7 @@ int dequeue(Queue *q)                                   // удаление эл
 {
     if (q->count == 0)                                  // проверка, если очередь пуста
     {
-        printf("No elements in queue");
+        printf("Can't remove element, the queue is empty\n");
         return -1;
     }
 
