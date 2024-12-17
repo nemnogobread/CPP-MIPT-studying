@@ -3,8 +3,8 @@
 #include <math.h>
 #include <time.h>
 
-#define ISIZE 100
-#define JSIZE 100
+#define ISIZE 1000
+#define JSIZE 1000
 
 int main(int argc, char **argv)
 {
